@@ -1,0 +1,25 @@
+{
+  "name": "funnel-chart",
+  "version": "1.0.0",
+  "description": "Funnel chart visualization using HTML5 canvas",
+  "main": "src/funnel-chart.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/promotably/funnel-chart.git"
+  },
+  "keywords": [
+    "funnel",
+    "funnel chart",
+    "funnel graph",
+    "funnel visualization"
+  ],
+  "author": "Promotably LLC",
+  "license": "MIT License",
+  "bugs": {
+    "url": "https://github.com/promotably/funnel-chart/issues"
+  },
+  "homepage": "https://github.com/promotably/funnel-chart"
+}
