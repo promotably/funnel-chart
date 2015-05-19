@@ -124,7 +124,7 @@
 
       // Width and height of canvas
       this.width = this.canvas.offsetWidth;
-      this.height = canvas.offsetHeight;
+      this.height = this.canvas.offsetHeight;
 
       // Width allocated to labels
       labelWidth = this.hasLabels() ? this.width * (settings.labelWidthPercent / 100) : 0;
