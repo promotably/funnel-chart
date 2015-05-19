@@ -58,63 +58,58 @@
 
     settings: {
 
-      // Whether to display % change between sections
+      // Boolean - Whether to display % change between sections
       displayPercentageChange: true,
 
-      // The number of decimal places that should be displayed for % change
-      // values
+      // Number - The number of decimal places that should be displayed for %
+      // change values
       pPrecision: 1,
 
-      // The color of the horizontal label lines (if labels are shown)
+      // String - The color of the horizontal label lines (if labels are shown)
       labelLineColor: '#eee',
 
-      // The font color of the labels.
-      // Can be a string or a sequential array.
+      // String or Array - The font color(s) of the labels.
       labelFontColor: '#657274',
 
-      // The color of the funnel sections.
-      // Can be a string or a sequential array.
+      // String or Array - The color(s) of the funnel sections.
       sectionColor: '#0498b3',
 
-      // The color of the funnel percentage sections.
-      // Can be a string or a sequential array.
+      // String or Array - The color(s) of the funnel percentage sections.
       pSectionColor: '#bfd1d4',
 
-      // The font for labels and values
+      // String - The font for labels and values
       font: 'Helvetica Neue',
 
-      // The maximum font size in pixels (px) for labels and values.
+      // Number - The maximum font size in pixels (px) for labels and values.
       // This will always be used where possible unless the height of the
       // funnel sections is too small to permit it, in which case the font size
       // will be automatically reduced to fit
       maxFontSize: 13,
 
-      // The font weight for labels and values
+      // String - The font weight for labels and values
       fontWeight: '300',
 
-      // The font color for funnel sections
-      // Can be a string or a sequential array.
+      // String or Array - The font color(s) for funnel sections
       sectionFontColor: '#fff',
 
-      // The font color for % change sections
-      // Can be a string or a sequential array.
+      // String or Array - The font color(s) for % change sections
       pSectionFontColor: '#657274',
 
-      // The height of the % change sections compared to the main
+      // Number - The height of the % change sections compared to the main
       // funnel sections. This is a percent value.
-      pSectionHeightPercent: 83, //TODO: default to 100
+      pSectionHeightPercent: 100,
 
-      // The percentage of the full canvas width that should be reserved for
-      // display of labels (if provided). The funnel will expand to fit the
-      // remainder.
+      // Number - The percentage of the full canvas width that should be
+      // reserved for display of labels (if provided). The funnel will expand
+      // to fit the remainder.
       labelWidthPercent: 30,
 
-      // The percentage width difference between the top and the bottom of the
-      // funnel.
+      // Number - The percentage width difference between the top and the
+      // bottom of the funnel.
       funnelReductionPercent: 40,
 
-      // The space between the right hand edge of the funnel and the label text
-      // in pixels.
+      // Number - The space between the right hand edge of the funnel and the
+      // label text in pixels.
       labelOffset: 10
     },
 
