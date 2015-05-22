@@ -1,5 +1,5 @@
 /*!
- * Funnel Chart v0.0.1
+ * Funnel Chart v1.0.2
  * https://github.com/promotably/funnel-chart
  *
  * Copyright 2015 Promotably LLC
@@ -120,7 +120,7 @@
 
     calculateDimensions: function() {
       var settings = this.settings,
-          labelWidth, sectionTotalHeight;
+          labelWidth, sectionTotalHeight, increase;
 
       // Width and height of canvas
       this.width = this.canvas.offsetWidth;
@@ -136,10 +136,12 @@
 
       // Section heights
       if(settings.displayPercentageChange) {
-        sectionTotalHeight = (this.height / (settings.values.length - 0.5));
+        sectionTotalHeight = (this.height / (settings.values.length));
         this.pSectionHeight = (sectionTotalHeight / (settings.pSectionHeightPercent + 100)) * settings.pSectionHeightPercent;
-        this.sectionHeight = sectionTotalHeight - this.pSectionHeight - 1;
-        this.pSectionHeight = this.pSectionHeight - 1;
+        this.sectionHeight = sectionTotalHeight - this.pSectionHeight;
+        increase = (this.height / (this.height - this.pSectionHeight - 2));
+        this.sectionHeight = (this.sectionHeight * increase) - 1;
+        this.pSectionHeight = (this.pSectionHeight * increase) - 1;
       }
       else {
         sectionTotalHeight = (this.height / settings.values.length);
@@ -176,7 +178,7 @@
         this.drawSections(ctx);
 
         // Tidy up funnel outline
-        this.drawClippingArea(ctx, settings);
+        this.drawClippingArea(ctx, settings, true);
         ctx.lineWidth = 2;
         ctx.strokeStyle = '#fff';
         ctx.stroke();
@@ -218,22 +220,23 @@
       }
     },
 
-    drawClippingArea: function(ctx, settings) {
+    drawClippingArea: function(ctx, settings, curvesOnly) {
       var inset = (this.startWidth - this.endWidth) / 2;
       var height = (settings.values.length * this.sectionHeight) +
                      ((settings.values.length - 1) * this.pSectionHeight) +
-                     (settings.values.length + 1);
+                     (settings.values.length + 1),
+          lineOrMove = curvesOnly ? 'moveTo' : 'lineTo';
 
       ctx.beginPath();
       ctx.moveTo(0,0);
-      ctx.lineTo(this.startWidth,0);
+      ctx[lineOrMove](this.startWidth,0);
       ctx.quadraticCurveTo(
         (this.startWidth - inset),
         (height / 3),
         (this.startWidth - inset),
         height
       );
-      ctx.lineTo(inset,height);
+      ctx[lineOrMove](inset,height);
       ctx.quadraticCurveTo(inset, (height / 3), 0, 0);
     },
 

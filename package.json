@@ -1,6 +1,6 @@
 {
   "name": "funnel-chart",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Funnel chart visualization using HTML5 canvas",
   "main": "src/funnel-chart.js",
   "scripts": {
