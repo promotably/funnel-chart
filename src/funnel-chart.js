@@ -1,5 +1,5 @@
 /*!
- * Funnel Chart v1.1.0
+ * Funnel Chart v1.1.1
  * https://github.com/promotably/funnel-chart
  *
  * Copyright 2015 Promotably LLC
@@ -299,7 +299,7 @@
 
           ctx.fillStyle = this.sequentialValue(settings.pSectionFontColor, i);
           ctx.fillText(
-            ((settings.values[i + 1] / settings.values[i]) * 100).toFixed(settings.pPrecision) + '%',
+            (settings.values[i] === 0) ? '' : ((settings.values[i + 1] / settings.values[i]) * 100).toFixed(settings.pPrecision) + '%',
             this.startWidth / 2,
             yPos + this.sectionHeight + ((this.pSectionHeight - settings.lineHeight) / 2) + (settings.maxFontSize / 2) - 1
           );
