@@ -129,6 +129,9 @@
       this.width = this.canvas.offsetWidth;
       this.height = this.canvas.offsetHeight;
 
+      // Ensure canvas dimensions are correct for device pixel ratio
+      this.createHiDPICanvas();
+
       // Width allocated to labels
       labelWidth = this.hasLabels() ? this.width * (settings.labelWidthPercent / 100) : 0;
       this.labelMaxWidth = labelWidth - settings.labelOffset;
@@ -151,6 +154,30 @@
         this.sectionHeight = sectionTotalHeight;
         this.pSectionHeight = 0;
       }
+    },
+
+    pixelRatio: function(){
+      var ctx = this.canvas.getContext('2d'),
+          dpr = window.devicePixelRatio || 1,
+          bsr = ctx.webkitBackingStorePixelRatio ||
+                ctx.mozBackingStorePixelRatio ||
+                ctx.msBackingStorePixelRatio ||
+                ctx.oBackingStorePixelRatio ||
+                ctx.backingStorePixelRatio || 1;
+      return dpr / bsr;
+    },
+
+    createHiDPICanvas: function() {
+        var canvas = this.canvas,
+            ratio = this.pixelRatio(),
+            w = this.width,
+            h = this.height;
+
+        canvas.width = w * ratio;
+        canvas.height = h * ratio;
+        canvas.style.width = w + 'px';
+        canvas.style.height = h + 'px';
+        canvas.getContext('2d').setTransform(ratio, 0, 0, ratio, 0, 0);
     },
 
     draw: function() {
