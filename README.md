@@ -155,5 +155,7 @@ The settings argument is an object containing a number of required and optional 
   // label text in pixels.
   labelOffset: 10
 
+  // Number - The line height between each funnel section
+  lineHeight: 1
 }
 ```

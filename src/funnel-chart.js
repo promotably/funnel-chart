@@ -1,5 +1,5 @@
 /*!
- * Funnel Chart v1.0.2
+ * Funnel Chart v1.1.0
  * https://github.com/promotably/funnel-chart
  *
  * Copyright 2015 Promotably LLC
@@ -110,7 +110,10 @@
 
       // Number - The space between the right hand edge of the funnel and the
       // label text in pixels.
-      labelOffset: 10
+      labelOffset: 10,
+
+      // Number - The line height between each funnel section
+      lineHeight: 1
     },
 
     initialize: function() {
@@ -120,7 +123,7 @@
 
     calculateDimensions: function() {
       var settings = this.settings,
-          labelWidth, sectionTotalHeight, increase;
+          labelWidth, sectionTotalHeight, multiplier;
 
       // Width and height of canvas
       this.width = this.canvas.offsetWidth;
@@ -134,18 +137,18 @@
       this.startWidth = this.width - labelWidth;
       this.endWidth = this.startWidth * (settings.funnelReductionPercent / 100);
 
+      // Total height of each section
+      sectionTotalHeight = (this.height / (settings.values.length));
+
       // Section heights
       if(settings.displayPercentageChange) {
         sectionTotalHeight = (this.height / (settings.values.length));
-        this.pSectionHeight = (sectionTotalHeight / (settings.pSectionHeightPercent + 100)) * settings.pSectionHeightPercent;
-        this.sectionHeight = sectionTotalHeight - this.pSectionHeight;
-        increase = (this.height / (this.height - this.pSectionHeight - 2));
-        this.sectionHeight = (this.sectionHeight * increase) - 1;
-        this.pSectionHeight = (this.pSectionHeight * increase) - 1;
+        multiplier = this.height / (this.height - (sectionTotalHeight / (100 + settings.pSectionHeightPercent)) * settings.pSectionHeightPercent);
+        this.sectionHeight = (multiplier * ((sectionTotalHeight / (100 + settings.pSectionHeightPercent)) * 100));
+        this.pSectionHeight = (multiplier * ((sectionTotalHeight / (100 + settings.pSectionHeightPercent)) * settings.pSectionHeightPercent));
       }
       else {
-        sectionTotalHeight = (this.height / settings.values.length);
-        this.sectionHeight = sectionTotalHeight - 1;
+        this.sectionHeight = sectionTotalHeight;
         this.pSectionHeight = 0;
       }
     },
@@ -190,10 +193,10 @@
           i, yPos;
 
       ctx.strokeStyle = settings.labelLineColor;
-      ctx.lineWidth = 1;
+      ctx.lineWidth = settings.lineHeight;
 
       for(i = 0; i < settings.values.length; i++) {
-        yPos = this.calculateYPos(i);
+        yPos = this.calculateYPos(i) - 1;
 
         ctx.fillStyle = this.sequentialValue(settings.labelFontColor, i);
         ctx.fillText(
@@ -250,44 +253,42 @@
         yPos = this.calculateYPos(i);
 
         ctx.fillStyle = this.sequentialValue(settings.sectionColor, i);
-        ctx.fillRect(0, yPos, this.startWidth, this.sectionHeight);
+        ctx.fillRect(0, yPos, this.startWidth, this.sectionHeight - settings.lineHeight);
         ctx.fillStyle = this.sequentialValue(settings.sectionFontColor, i);
         ctx.fillText(
           settings.values[i],
           this.startWidth / 2,
-          yPos + (this.sectionHeight / 2) + (settings.maxFontSize / 2) - 2
+          yPos + ((this.sectionHeight - settings.lineHeight) / 2) + (settings.maxFontSize / 2) - 2
         );
 
         if(i < (settings.values.length - 1) && settings.displayPercentageChange) {
           ctx.fillStyle = this.sequentialValue(settings.pSectionColor, i);
           ctx.fillRect(
             0,
-            (yPos + this.sectionHeight + 1),
+            (yPos + this.sectionHeight),
             this.startWidth,
-            this.pSectionHeight
+            this.pSectionHeight - settings.lineHeight
           );
 
           ctx.fillStyle = this.sequentialValue(settings.pSectionFontColor, i);
           ctx.fillText(
             ((settings.values[i + 1] / settings.values[i]) * 100).toFixed(settings.pPrecision) + '%',
             this.startWidth / 2,
-            yPos + this.sectionHeight + (this.pSectionHeight / 2) + (settings.maxFontSize / 2) - 1
+            yPos + this.sectionHeight + ((this.pSectionHeight - settings.lineHeight) / 2) + (settings.maxFontSize / 2) - 1
           );
         }
       }
     },
 
     hasLabels: function() {
-      return this.settings.labels && !!this.settings.labels.length;
+      var labels = this.settings.labels;
+      return labels && !!labels.length;
     },
 
     calculateYPos: function(i) {
-      var sectionHeight = this.sectionHeight + 1;
-
-      if(this.settings.displayPercentageChange)
-        sectionHeight += this.pSectionHeight + 1;
-
-      return (i === 0) ? 0 : (sectionHeight * i);
+      var sectionHeight = this.sectionHeight;
+      if(this.settings.displayPercentageChange) sectionHeight += this.pSectionHeight;
+      return sectionHeight * i;
     },
 
     sequentialValue: function(arr, i) {
