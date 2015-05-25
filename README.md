@@ -153,7 +153,7 @@ The settings argument is an object containing a number of required and optional 
 
   // Number - The space between the right hand edge of the funnel and the
   // label text in pixels.
-  labelOffset: 10
+  labelOffset: 10,
 
   // Number - The line height between each funnel section
   lineHeight: 1
