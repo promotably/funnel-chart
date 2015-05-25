@@ -145,7 +145,6 @@
 
       // Section heights
       if(settings.displayPercentageChange) {
-        sectionTotalHeight = (this.height / (settings.values.length));
         multiplier = this.height / (this.height - (sectionTotalHeight / (100 + settings.pSectionHeightPercent)) * settings.pSectionHeightPercent);
         this.sectionHeight = (multiplier * ((sectionTotalHeight / (100 + settings.pSectionHeightPercent)) * 100));
         this.pSectionHeight = (multiplier * ((sectionTotalHeight / (100 + settings.pSectionHeightPercent)) * settings.pSectionHeightPercent));
